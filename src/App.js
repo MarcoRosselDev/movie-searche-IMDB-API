@@ -30,7 +30,17 @@ function App() {
 
   return (
     <div>
-      <h1>hola</h1>
+      {/* contenedor que mostrara posters de peliculas */}
+      <div className="container mt-3">
+        <div className="row">
+          {movies.map((movie) => (
+            <div key={movie.id} className="col-md-4 mb-3">
+              <img src={`${URL_IMAGE + movie.poster_path}`} alt="poster movie" height={600} width="100%" />
+              <h4 className="text-center">{movie.title}</h4>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
