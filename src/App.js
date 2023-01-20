@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import YouTube from "react-youtube";
 import "./App.css";
 
 function App() {
-  console.log(process.env);
+  const API_URL = "https://api.themoviedb.org/3";
+  const API_KEY = "c1b661944b322e9bff1c1acc8b8e9033";
+  const IMAGE_PATH = "https://image.tmdb.org/t/p/original";
+  const URL_IMAGE = "https://image.tmdb.org/t/p/original";
+
   // variables de estado
   const [movies, setMovies] = useState([]);
   const [searchKey, setSearchKey] = useState("");
@@ -16,17 +20,22 @@ function App() {
 
   const fetchMovies = async (searchKey) => {
     const type = searchKey ? "search" : "discover";
-    const { data: { results }
-  } = await axios.get(`${process.env.API_URL}/${type}/movie`, {
+    const {
+      data: { results },
+    } = await axios.get(`${API_URL}/${type}/movie`, {
       params: {
-        api_key: process.env.API_KEY,
-        query: searchKey.
+        api_key: API_KEY,
+        query: searchKey,
       },
-    })
+    });
 
-    setMovies(results)
-    setMovie(results[0])
+    setMovies(results);
+    setMovie(results[0]);
   };
+
+  useEffect(() => {
+    fetchMovies();
+  }, []);
 
   return (
     <div>
@@ -35,7 +44,12 @@ function App() {
         <div className="row">
           {movies.map((movie) => (
             <div key={movie.id} className="col-md-4 mb-3">
-              <img src={`${URL_IMAGE + movie.poster_path}`} alt="poster movie" height={600} width="100%" />
+              <img
+                src={`${URL_IMAGE + movie.poster_path}`}
+                alt="poster movie"
+                height={600}
+                width="100%"
+              />
               <h4 className="text-center">{movie.title}</h4>
             </div>
           ))}
