@@ -31,11 +31,10 @@ function App() {
 
     setMovies(results);
     setMovie(results[0]);
+    if (results.length) {
+      await fetchMovie(results[0].id);
+    }
   };
-
-  if (results.length) {
-    fetchMovie(results[0].id);
-  }
 
   // función para la petición de un solo objeto y mostrar en reproductor de video
   const fetchMovie = async (id) => {
@@ -88,13 +87,12 @@ function App() {
         <main>
           {movie ? (
             <div
-            className="viewtrailer"
-            style={{
-              backgroundImage: `url("${IMAGE_PATH}${movie.backdrop_path}")`,
-            }}
+              className="viewtrailer"
+              style={{
+                backgroundImage: `url("${IMAGE_PATH}${movie.backdrop_path}")`,
+              }}
             >
-
-              {playing? (
+              {playing ? (
                 <>
                   <YouTube
                     videoId={trailer.key}
@@ -115,13 +113,15 @@ function App() {
                       },
                     }}
                   />
-                  <button onClick={() => setPlaying(false)} className="boton" >Close</button>
+                  <button onClick={() => setPlaying(false)} className="boton">
+                    Close
+                  </button>
                 </>
-              ):(
+              ) : (
                 <div className="container">
-                  <div className="">{
-                    trailer ? (
-                      <button 
+                  <div className="">
+                    {trailer ? (
+                      <button
                         className="boton"
                         onClick={() => setPlaying(true)}
                         type="button"
@@ -130,12 +130,14 @@ function App() {
                       </button>
                     ) : (
                       "Sorry, no trailer available"
-                    )
-                  }</div>
+                    )}
+                    <h1 className="text-white">{movie.title}</h1>
+                    <p className="text-white">{movie.overview}</p>
+                  </div>
                 </div>
               )}
             </div>
-          )}
+          ) : null}
         </main>
       </div>
 
@@ -143,7 +145,11 @@ function App() {
       <div className="container mt-3">
         <div className="row">
           {movies.map((movie) => (
-            <div key={movie.id} className="col-md-4 mb-3">
+            <div
+              key={movie.id}
+              className="col-md-4 mb-3"
+              onClick={() => selectMovie(movie)}
+            >
               <img
                 src={`${URL_IMAGE + movie.poster_path}`}
                 alt="poster movie"
