@@ -95,28 +95,7 @@ function App() {
       </form>
 
       {/* contenedor para previsualizar  */}
-      {/* <div>
-        <div
-          className="viewtrailer"
-          style={{
-            backgroundImage: `url("${IMAGE_PATH}${movie.backdrop_path}")`,
-          }}
-        >
-          
-          
-          <div className="container">
-            
-            
-            <button className="boton">Play Trailer</button>
-            <h1 className="text-white">{movie.title}</h1>
-            {movie.overview ? (
-              <p className="text-white">{movie.overview}</p>
-            ) : null}
-          </div>
-        </div>
-      </div> */}
 
-      {/* esto es por prueba */}
       <div>
         <main>
           {movie ? (
