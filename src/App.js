@@ -33,6 +33,10 @@ function App() {
     setMovie(results[0]);
   };
 
+  if (results.length) {
+    fetchMovie(results[0].id);
+  }
+
   // función para la petición de un solo objeto y mostrar en reproductor de video
   const fetchMovie = async (id) => {
     const { data } = await axios.get(`${API_URL}/movie/${id}`, {
@@ -48,6 +52,12 @@ function App() {
       setTrailer(trailer ? trailer : data.videos.results[0]);
     }
     setMovie(data);
+  };
+
+  const selectMovie = async (movie) => {
+    fetchMovie(movie.id);
+    setMovie(movie);
+    window.scrollTo(0, 0);
   };
 
   // función para buscar peliculas
@@ -71,6 +81,9 @@ function App() {
           onChange={(e) => setSearchKey(e.target.value)}
         />
       </form>
+
+      {/* aqui va todo el contenedor del banner y del reproductor de video */}
+
       {/* contenedor que mostrara posters de peliculas */}
       <div className="container mt-3">
         <div className="row">
