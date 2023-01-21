@@ -99,9 +99,40 @@ function App() {
                   <YouTube
                     videoId={trailer.key}
                     className="reproductor container"
-                    containerClassName={"youtube-container amru"}
-                  ></YouTube>
+                    containerClassName={"youtube-container "}
+                    opts={{
+                      width: "100%",
+                      height: "100%",
+                      playerVars: {
+                        autoplay: 1,
+                        controls: 0,
+                        cc_load_policy: 0,
+                        fs: 0,
+                        iv_load_policy: 0,
+                        modestbranding: 0,
+                        rel: 0,
+                        showinfo: 0,
+                      },
+                    }}
+                  />
+                  <button onClick={() => setPlaying(false)} className="boton" >Close</button>
                 </>
+              ):(
+                <div className="container">
+                  <div className="">{
+                    trailer ? (
+                      <button 
+                        className="boton"
+                        onClick={() => setPlaying(true)}
+                        type="button"
+                      >
+                        Play Trailer
+                      </button>
+                    ) : (
+                      "Sorry, no trailer available"
+                    )
+                  }</div>
+                </div>
               )}
             </div>
           )}
