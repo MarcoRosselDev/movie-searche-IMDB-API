@@ -7,17 +7,19 @@ function App() {
   const API_URL = "https://api.themoviedb.org/3";
   const API_KEY = "c1b661944b322e9bff1c1acc8b8e9033";
   const IMAGE_PATH = "https://image.tmdb.org/t/p/original";
+
+  // endpoint para las imagenes
   const URL_IMAGE = "https://image.tmdb.org/t/p/original";
 
   // variables de estado
   const [movies, setMovies] = useState([]);
   const [searchKey, setSearchKey] = useState("");
+  //const [selectedMovie, setSelectedMovie] = useState({})
   const [trailer, setTrailer] = useState(null);
   const [movie, setMovie] = useState({ title: "Loading Movies" });
   const [playing, setPlaying] = useState(false);
 
-  // funcion para realizar la peticion por get a la api
-
+  // funcion para realizar la peticion get a la api
   const fetchMovies = async (searchKey) => {
     const type = searchKey ? "search" : "discover";
     const {
@@ -28,39 +30,48 @@ function App() {
         query: searchKey,
       },
     });
+    //console.log('data',results);
+    //setSelectedMovie(results[0])
 
     setMovies(results);
     setMovie(results[0]);
+
     if (results.length) {
       await fetchMovie(results[0].id);
     }
   };
 
-  // función para la petición de un solo objeto y mostrar en reproductor de video
+  // funcion para la peticion de un solo objeto y mostrar en reproductor de videos
   const fetchMovie = async (id) => {
     const { data } = await axios.get(`${API_URL}/movie/${id}`, {
       params: {
         api_key: API_KEY,
-        append_to_response: "movies",
+        append_to_response: "videos",
       },
     });
+
     if (data.videos && data.videos.results) {
       const trailer = data.videos.results.find(
         (vid) => vid.name === "Official Trailer"
       );
       setTrailer(trailer ? trailer : data.videos.results[0]);
     }
+    //return data
     setMovie(data);
   };
 
   const selectMovie = async (movie) => {
+    // const data = await fetchMovie(movie.id)
+    // console.log(data);
+    // setSelectedMovie(movie)
     fetchMovie(movie.id);
+
     setMovie(movie);
     window.scrollTo(0, 0);
   };
 
-  // función para buscar peliculas
-  const searchMovie = (e) => {
+  // funcion para buscar peliculas
+  const searchMovies = (e) => {
     e.preventDefault();
     fetchMovies(searchKey);
   };
@@ -71,18 +82,41 @@ function App() {
 
   return (
     <div>
-      <h2 className="text-center mt-5 mb-5">Trailer Movies</h2>
-      {/* buscador */}
-      <form className="container mb-4" onSubmit={searchMovie}>
+      <h2 className="text-center mt-5 mb-5">Trailer Popular Movies</h2>
+
+      {/* el buscador */}
+      <form className="container mb-4" onSubmit={searchMovies}>
         <input
           type="text"
-          placeholder="buscador"
+          placeholder="search"
           onChange={(e) => setSearchKey(e.target.value)}
         />
+        <button className="btn btn-primary">Search</button>
       </form>
 
-      {/* aqui va todo el contenedor del banner y del reproductor de video */}
+      {/* contenedor para previsualizar  */}
+      {/* <div>
+        <div
+          className="viewtrailer"
+          style={{
+            backgroundImage: `url("${IMAGE_PATH}${movie.backdrop_path}")`,
+          }}
+        >
+          
+          
+          <div className="container">
+            
+            
+            <button className="boton">Play Trailer</button>
+            <h1 className="text-white">{movie.title}</h1>
+            {movie.overview ? (
+              <p className="text-white">{movie.overview}</p>
+            ) : null}
+          </div>
+        </div>
+      </div> */}
 
+      {/* esto es por prueba */}
       <div>
         <main>
           {movie ? (
@@ -97,7 +131,7 @@ function App() {
                   <YouTube
                     videoId={trailer.key}
                     className="reproductor container"
-                    containerClassName={"youtube-container "}
+                    containerClassName={"youtube-container amru"}
                     opts={{
                       width: "100%",
                       height: "100%",
@@ -141,7 +175,7 @@ function App() {
         </main>
       </div>
 
-      {/* contenedor que mostrara posters de peliculas */}
+      {/* contenedor para mostrar los posters y las peliculas en la peticion a la api */}
       <div className="container mt-3">
         <div className="row">
           {movies.map((movie) => (
@@ -152,7 +186,7 @@ function App() {
             >
               <img
                 src={`${URL_IMAGE + movie.poster_path}`}
-                alt="poster movie"
+                alt=""
                 height={600}
                 width="100%"
               />
