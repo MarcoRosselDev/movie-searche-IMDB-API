@@ -33,6 +33,23 @@ function App() {
     setMovie(results[0]);
   };
 
+  // función para la petición de un solo objeto y mostrar en reproductor de video
+  const fetchMovie = async (id) => {
+    const { data } = await axios.get(`${API_URL}/movie/${id}`, {
+      params: {
+        api_key: API_KEY,
+        append_to_response: "movies",
+      },
+    });
+    if (data.videos && data.videos.results) {
+      const trailer = data.videos.results.find(
+        (vid) => vid.name === "Official Trailer"
+      );
+      setTrailer(trailer ? trailer : data.videos.results[0]);
+    }
+    setMovie(data);
+  };
+
   // función para buscar peliculas
   const searchMovie = (e) => {
     e.preventDefault();
