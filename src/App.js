@@ -33,12 +33,27 @@ function App() {
     setMovie(results[0]);
   };
 
+  // función para buscar peliculas
+  const searchMovie = (e) => {
+    e.preventDefault();
+    fetchMovies(searchKey);
+  };
+
   useEffect(() => {
     fetchMovies();
   }, []);
 
   return (
     <div>
+      <h2 className="text-center mt-5 mb-5">Trailer Movies</h2>
+      {/* buscador */}
+      <form className="container mb-4" onSubmit={searchMovie}>
+        <input
+          type="text"
+          placeholder="buscador"
+          onChange={(e) => setSearchKey(e.target.value)}
+        />
+      </form>
       {/* contenedor que mostrara posters de peliculas */}
       <div className="container mt-3">
         <div className="row">
