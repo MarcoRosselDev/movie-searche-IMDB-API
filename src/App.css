@@ -16,3 +16,8 @@
   cursor: pointer;
   margin-bottom: 10px;
 }
+
+.reproductor {
+  width: 100%;
+  height: 600px;
+}

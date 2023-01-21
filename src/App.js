@@ -84,6 +84,30 @@ function App() {
 
       {/* aqui va todo el contenedor del banner y del reproductor de video */}
 
+      <div>
+        <main>
+          {movie ? (
+            <div
+            className="viewtrailer"
+            style={{
+              backgroundImage: `url("${IMAGE_PATH}${movie.backdrop_path}")`,
+            }}
+            >
+
+              {playing? (
+                <>
+                  <YouTube
+                    videoId={trailer.key}
+                    className="reproductor container"
+                    containerClassName={"youtube-container amru"}
+                  ></YouTube>
+                </>
+              )}
+            </div>
+          )}
+        </main>
+      </div>
+
       {/* contenedor que mostrara posters de peliculas */}
       <div className="container mt-3">
         <div className="row">
